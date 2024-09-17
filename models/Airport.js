@@ -1,0 +1,63 @@
+"use strict";
+const { Model, DataTypes } = require("sequelize");
+const { sequelize } = require("../db"); // Assuming you have a 'db.js' that sets up Sequelize
+
+class Airport extends Model {
+	/**
+	 * Helper method for defining associations.
+	 * This method is not a part of Sequelize lifecycle.
+	 * The `models/index` file will call this method automatically.
+	 */
+	static associate(models) {
+		// Define association with City
+		this.belongsTo(models.City, {
+			foreignKey: "cityId",
+			targetKey: "id",
+			onDelete: "CASCADE",
+		});
+		// Define associations with Flight for departure and arrival
+		this.hasMany(models.Flight, {
+			foreignKey: "departureAirportId",
+			sourceKey: "id",
+		});
+		this.hasMany(models.Flight, {
+			foreignKey: "arrivalAirportId",
+			sourceKey: "id",
+		});
+	}
+}
+
+Airport.init(
+	{
+		name: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
+		},
+		code: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
+		},
+		address: {
+			type: DataTypes.STRING,
+			unique: true,
+		},
+		cityId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			references: {
+				model: "cities",
+				key: "id",
+			},
+		},
+	},
+	{
+		sequelize,
+		modelName: "Airport",
+		tableName: "airports",
+		timestamps: true,
+	}
+);
+
+module.exports = Airport;

@@ -2,9 +2,9 @@ const express = require("express");
 const v1ApiRouter = express.Router();
 
 // Import Routes
-const userRoutes = require("./userRouter");
+const flightRoutes = require("./flight.routes");
 
 // Use Routes
-v1ApiRouter.use("/users", userRoutes);
+v1ApiRouter.use("/flight", flightRoutes);
 
 module.exports = v1ApiRouter;

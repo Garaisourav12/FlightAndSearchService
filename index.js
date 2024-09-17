@@ -3,10 +3,11 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 // File Imports
-const { PORT } = require("./envConfig");
-const connectDB = require("./db");
+const { PORT, DB_SYNC } = require("./envConfig");
+const { sequelize } = require("./db");
 const routes = require("./routes");
 const { NotFoundError } = require("./errors");
+const Models = require("./models");
 
 // Constants
 const app = express();
@@ -21,9 +22,6 @@ const port = PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
-
-// Db Connection
-connectDB();
 
 // Entry Point
 app.get("/", (req, res) => {
@@ -47,7 +45,14 @@ app.use((req, res) => {
 });
 
 // Server Start
-app.listen(port, () => {
-	console.log(`Server is running on port ${port}`);
-	console.log(`http://localhost:${port}`);
-});
+(async () => {
+	try {
+		if (DB_SYNC) await sequelize.sync({ force: true });
+		app.listen(port, () => {
+			console.log(`Server is running on port ${port}`);
+			console.log(`http://localhost:${port}`);
+		});
+	} catch (error) {
+		console.log(error.message);
+	}
+})();
