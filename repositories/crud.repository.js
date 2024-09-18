@@ -23,6 +23,13 @@ class CrudRepository {
 		return results;
 	}
 
+	async getByFieldObj(fieldObj) {
+		const result = await this.model.findOne({
+			where: fieldObj,
+		});
+		return result;
+	}
+
 	async update(id, data) {
 		// I need updated resource as return value
 		const [result] = await this.model.update(data, {

@@ -13,16 +13,22 @@ class Flight extends Model {
 		this.belongsTo(models.Airport, {
 			foreignKey: "departureAirportId",
 			targetKey: "id",
+			as: "departureAirport",
+			onDelete: "CASCADE",
 		});
 		this.belongsTo(models.Airport, {
 			foreignKey: "arrivalAirportId",
 			targetKey: "id",
+			as: "arrivalAirport",
+			onDelete: "CASCADE",
 		});
 
 		// Define association with Airplane
 		this.belongsTo(models.Airplane, {
 			foreignKey: "airplaneId",
 			targetKey: "id",
+			as: "airplaneDetails",
+			onDelete: "CASCADE",
 		});
 
 		// Define association with Passenger (if any)

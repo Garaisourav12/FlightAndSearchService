@@ -13,7 +13,6 @@ class Airplane extends Model {
 		this.hasMany(models.Flight, {
 			foreignKey: "airplaneId",
 			sourceKey: "id",
-			onDelete: "CASCADE",
 		});
 	}
 }

@@ -2,7 +2,11 @@ const dataMissing = (...data) => {
 	return data.some((item) => item === undefined || item === null);
 };
 
-const successResponse = (res, data, statusCode, message) => {
+const isEmptyObject = (obj) => {
+	return Object.keys(obj).length === 0;
+};
+
+const successResponse = (res, data, message, statusCode = 200) => {
 	return res.status(statusCode).json({
 		success: true,
 		message,
@@ -17,4 +21,4 @@ const errorResponse = (res, error) => {
 	});
 };
 
-module.exports = { dataMissing, successResponse, errorResponse };
+module.exports = { dataMissing, isEmptyObject, successResponse, errorResponse };
