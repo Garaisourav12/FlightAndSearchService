@@ -1,9 +1,10 @@
 const { BadRequestError } = require("../errors");
-const airplaneService = require("../services");
+const { airplaneService } = require("../services");
 const {
 	errorResponse,
 	dataMissing,
 	isEmptyObject,
+	successResponse,
 } = require("../utils/commonUtils");
 
 const getAllAirplanes = async (req, res) => {
@@ -14,6 +15,29 @@ const getAllAirplanes = async (req, res) => {
 			res,
 			airplanes,
 			"Retrieved all airplanes successfully!"
+		);
+	} catch (error) {
+		return errorResponse(res, error);
+	}
+};
+
+const getAvailableAirplanes = async (req, res) => {
+	const { departureAirportId, departureTime } = req.params;
+
+	try {
+		if (dataMissing(departureAirportId, departureTime)) {
+			throw new BadRequestError();
+		}
+
+		const airplanes = await airplaneService.getAvailableAirplanes(
+			departureAirportId,
+			departureTime
+		);
+
+		return successResponse(
+			res,
+			airplanes,
+			"Retrieved available airplanes successfully!"
 		);
 	} catch (error) {
 		return errorResponse(res, error);
@@ -103,6 +127,7 @@ const deleteAirplane = async (req, res) => {
 
 module.exports = {
 	getAllAirplanes,
+	getAvailableAirplanes,
 	getAirplaneById,
 	createAirplane,
 	updateAirplane,

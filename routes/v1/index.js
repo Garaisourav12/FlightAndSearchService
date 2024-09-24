@@ -9,7 +9,7 @@ const flightRoutes = require("./flight.routes");
 
 // Use Routes
 v1ApiRouter.use("/flights", flightRoutes);
-v1ApiRouter.use("/citys", cityRoutes);
+v1ApiRouter.use("/cities", cityRoutes);
 v1ApiRouter.use("/airports", airportRoutes);
 v1ApiRouter.use("/airplanes", airplaneRoutes);
 

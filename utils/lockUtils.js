@@ -1,5 +1,9 @@
 const addRowLockOnFlights = (flightId) => {
-	retuen`SELECT * FROM flights WHERE id = ${flightId} FOR UPDATE`;
+	return `SELECT * FROM flights WHERE id = ${flightId} FOR UPDATE`;
 };
 
-module.exports = { addRowLockOnFlights };
+const addRowLockOnAirplanes = (airplaneId) => {
+	return `SELECT * FROM airplanes WHERE id = ${airplaneId} FOR UPDATE`;
+};
+
+module.exports = { addRowLockOnFlights, addRowLockOnAirplanes };

@@ -1,3 +1,5 @@
+const HttpError = require("../errors/httpError");
+
 const dataMissing = (...data) => {
 	return data.some((item) => item === undefined || item === null);
 };
@@ -21,4 +23,14 @@ const errorResponse = (res, error) => {
 	});
 };
 
-module.exports = { dataMissing, isEmptyObject, successResponse, errorResponse };
+const isHttpError = (error) => {
+	return error instanceof HttpError;
+};
+
+module.exports = {
+	dataMissing,
+	isEmptyObject,
+	successResponse,
+	errorResponse,
+	isHttpError,
+};

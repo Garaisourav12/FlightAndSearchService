@@ -1,14 +1,25 @@
 const { InternalServerError } = require("../errors");
-const { airportRepository } = require("../repositories");
+const { airplaneRepository } = require("../repositories");
 
 class AirplaneService {
 	constructor() {
-		this.airportRepository = airportRepository;
+		this.airplaneRepository = airplaneRepository;
 	}
 
 	async getAllAirplanes() {
 		try {
-			return await this.airportRepository.getAll();
+			return await this.airplaneRepository.getAll();
+		} catch (error) {
+			throw new InternalServerError("Internal server error!");
+		}
+	}
+
+	async getAvailableAirplanes(departureAirportId, departureTime) {
+		try {
+			return await this.airplaneRepository.getAvailableAirplanes(
+				departureAirportId,
+				departureTime
+			);
 		} catch (error) {
 			throw new InternalServerError("Internal server error!");
 		}
@@ -16,7 +27,7 @@ class AirplaneService {
 
 	async getAirplaneById(id) {
 		try {
-			return await this.airportRepository.get(id);
+			return await this.airplaneRepository.get(id);
 		} catch (error) {
 			throw new InternalServerError("Internal server error!");
 		}
@@ -24,7 +35,7 @@ class AirplaneService {
 
 	async createAirplane(data) {
 		try {
-			return await this.airportRepository.create(data);
+			return await this.airplaneRepository.create(data);
 		} catch (error) {
 			throw new InternalServerError("Internal server error!");
 		}
@@ -32,7 +43,7 @@ class AirplaneService {
 
 	async updateAirplane(id, data) {
 		try {
-			return await this.airportRepository.update(id, data);
+			return await this.airplaneRepository.update(id, data);
 		} catch (error) {
 			throw new InternalServerError("Internal server error!");
 		}
@@ -40,7 +51,7 @@ class AirplaneService {
 
 	async deleteAirplane(id) {
 		try {
-			return await this.airportRepository.delete(id);
+			return await this.airplaneRepository.delete(id);
 		} catch (error) {
 			throw new InternalServerError("Internal server error!");
 		}

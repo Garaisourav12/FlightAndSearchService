@@ -4,6 +4,8 @@ const {
 	airplaneRepository,
 	flightRepository,
 } = require("../repositories");
+const { isHttpError } = require("../utils/commonUtils");
+const { generateFlightNumber } = require("../utils/flightUtils");
 
 class FlightService {
 	constructor() {
@@ -93,7 +95,7 @@ class FlightService {
 		const { airplaneId, departureAirportId, arrivalAirportId } = data;
 
 		try {
-			const airplane = this.airplaneRepository.get(airplaneId);
+			const airplane = await this.airplaneRepository.get(airplaneId);
 			if (!airplane) {
 				throw new NotFoundError("Airplane not found!");
 			}
@@ -109,9 +111,23 @@ class FlightService {
 				throw new NotFoundError("Arrival airport not found!");
 			}
 
-			return await this.flightRepository.create(data);
+			// Generate unique flight number
+			const flightNumber = generateFlightNumber();
+
+			return await this.flightRepository.create(
+				{
+					flightNumber,
+					...data,
+					totalSeats: airplane.capacity,
+				},
+				airplane
+			);
 		} catch (error) {
-			throw new InternalServerError("Internal server error!");
+			console.log(error);
+
+			throw isHttpError(error)
+				? error
+				: new InternalServerError("Internal server error!");
 		}
 	}
 
