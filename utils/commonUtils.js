@@ -1,4 +1,4 @@
-const HttpError = require("../errors/httpError");
+const { HttpError } = require("../errors");
 
 const dataMissing = (...data) => {
 	return data.some((item) => item === undefined || item === null);

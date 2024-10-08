@@ -5,9 +5,9 @@ const cookieParser = require("cookie-parser");
 // File Imports
 const { PORT, DB_SYNC } = require("./envConfig");
 const { sequelize } = require("./db");
+const Models = require("./models");
 const routes = require("./routes");
 const { NotFoundError } = require("./errors");
-const Models = require("./models");
 
 // Constants
 const app = express();
